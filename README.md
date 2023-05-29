@@ -27,6 +27,7 @@ Find file duplicates
 --dir_skip,-e       One or more paths which must not be scanned.
                      Example:
                      -e /absolute/path ../relative/path
+
 --masks, -n         File name pattern.              
                      Special characters:
                       *   Any zero or more characters.
