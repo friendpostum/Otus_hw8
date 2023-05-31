@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
              "Mask for files to scans")
             ("depth,l", opt::value<size_t>()->default_value(1), "0-only specified directory/1-all nested directories")
             ("file_sz,s", opt::value<size_t>()->default_value(1), "Minimum size of file")
-            ("block_sz,S", opt::value<size_t>()->default_value(1), "Block size in bytes");
+            ("block_sz,S", opt::value<size_t>()->default_value(10), "Block size in bytes");
 
         opt::variables_map vm;
         opt::store(opt::parse_command_line(argc, argv, desc), vm);
