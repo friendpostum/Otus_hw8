@@ -48,13 +48,6 @@ int main(int argc, char *argv[]) {
             return 2;
         }
 
-/*        try {
-            opt::store(opt::parse_config_file<char>("config.cfg", desc), vm);
-
-        } catch(const opt::reading_file &e) {
-            std::cout << "Error: " << e.what() << std::endl;
-        }*/
-
         Search search(vm["hash"].as<std::string>(),
                       vm["dir_scan"].as<std::vector<std::string>>(),
                       vm["dir_skip"].as<std::vector<std::string>>(),

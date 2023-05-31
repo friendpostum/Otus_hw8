@@ -9,12 +9,12 @@
 #include "hash.h"
 
 struct File {
-    File(std::string path_, size_t sz, size_t block_sz, std::string hash):
-        path(std::move(path_)),
-        size(sz),
-        block_sz(block_sz),
-        block_qty((sz + block_sz - 1) / block_sz),
-        content(path, std::ios::binary) {
+    File(std::string path_, size_t sz, size_t block_sz, std::string hash) :
+            path(std::move(path_)),
+            size(sz),
+            block_sz(block_sz),
+            block_qty((sz + block_sz - 1) / block_sz),
+            content(path, std::ios::binary) {
         hash_alg(hash);
         hash.reserve(block_qty);
     }
@@ -23,7 +23,6 @@ struct File {
         if (duplicate ^ other.duplicate) {
             return other.duplicate < duplicate;
         }
-        // return duplicate && hash_blocks[0] < other.hash_blocks[0];
         return duplicate && size < other.size;
     }
 
@@ -84,7 +83,7 @@ struct Search {
                            hash(std::move(hash)),
                            file_masks(masks),
                            dir_scan(dir_scan),
-                           dir_skip(dir_skip){
+                           dir_skip(dir_skip) {
         scanner();
         find_duplicate();
         print();
@@ -102,14 +101,14 @@ private:
     std::vector<File> file_list;
 
     void scanner() {
-        for(const auto &dir: dir_scan) {
-            if(dir_no_skip(dir)) {
+        for (const auto &dir: dir_scan) {
+            if (dir_no_skip(dir)) {
                 search_files(dir);
             }
         }
     }
 
-    bool dir_no_skip(const std::string & dir){
+    bool dir_no_skip(const std::string &dir) {
         return (fs::exists(dir) && std::find(dir_skip.begin(), dir_skip.end(), dir) == std::end(dir_skip));
     }
 
@@ -130,12 +129,6 @@ private:
         if (masks.empty()) return true;
         return std::any_of(masks.cbegin(), masks.cend(),
                            [&name](auto m) { return std::regex_match(name, std::regex(m)); });
-
-/*        bool answ = false;
-        for(const auto &m: masks)
-            if(std::string::npos != name.find(m))
-                answ = true;
-        return answ;*/
     }
 
     void find_duplicate() {
@@ -149,12 +142,12 @@ private:
 
     void print() {
         std::sort(file_list.begin(), file_list.end());
-        for(int i = 0; i < file_list.size(); ++i) {
+        for (int i = 0; i < file_list.size(); ++i) {
             const auto &f = file_list[i];
-            if(!f.duplicate) break;
-            if(i > 0 && (f.hash_blocks[0] != file_list[i - 1].hash_blocks[0] || f.size != file_list[i - 1].size))
+            if (!f.duplicate) break;
+            if (i > 0 && (f.hash_blocks[0] != file_list[i - 1].hash_blocks[0] || f.size != file_list[i - 1].size))
                 std::cout << '\n';
-            std::cout << f.path << " " << f.size << " " << f.hash_blocks[0] << '\n';
+            std::cout << f.path << '\n';
         }
     }
 
